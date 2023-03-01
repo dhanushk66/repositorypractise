@@ -1,0 +1,103 @@
+---
+title: "Astronaut_assignment"
+author: "Venkata Dhanush Kikkisetti"
+date: "2023-02-15"
+output: pdf_document
+---
+
+## 1 & 2
+```{r}
+library(tidyverse)
+nasa=read_csv("/Users/dhanushkikkisetti/Downloads/Astronauts Assignment/Astronauts.csv")
+nrow(nasa)
+ncol(nasa)
+```
+
+## 3
+```{r}
+library(dplyr)
+nasa%>%
+  filter(Gender=='Female')%>%
+  dplyr::select(Name)
+
+nasa%>%
+  filter(Gender=='Female')%>%
+  summarise(Number_of_females=n())
+```
+## 4
+```{r}
+nasa%>%
+  filter(Gender=='Female')%>%
+  dplyr::select(c("Name","Military Rank","Military Branch"))
+```
+## 5
+```{r}
+nasa%>%
+  filter(Gender=='Female'& Status=="Active")
+  
+```
+## 6
+```{r}
+nasa%>%
+  group_by(Gender)%>%
+  summarise(Total=sum(`Space Walks`))%>%
+  ggplot(mapping = aes(x=Gender,y=Total,fill=Gender))+
+  geom_col()
+```
+
+## 7
+```{r}
+nasa%>%
+  filter(`Space Walks`>=1)%>%
+  group_by(Name,Gender,`Space Walks`)%>%
+  summarise(n=n())
+```
+
+## 8
+```{r}
+ggplot(data = nasa,mapping = aes(x=nasa$`Space Walks`))+
+  geom_boxplot()+
+  ggtitle("Boxplot for distribution of space Walks")
+# There are 5 outliers in this boxplots
+IQR(nasa$`Space Walks`)
+  
+```
+
+## 9
+```{r}
+ggplot(data = nasa,mapping = aes(x=Gender,y=nasa$`Space Walks`))+
+  geom_boxplot()
+```
+
+## 10
+```{r}
+ggplot(data = nasa,mapping = aes(x=nasa$`Space Walks`))+
+  geom_histogram(binwidth = 1,fill='red')
+```
+## 11 
+```{r}
+nasa%>%
+  filter(!is.na(`Space Walks`))%>%
+  group_by(Gender)%>%
+  summarise(Total=mean(`Space Walks`))
+```
+## 12
+```{r}
+ggplot(data = nasa,mapping = aes(x=nasa$`Space Walks`,y=nasa$`Space Flights`))+
+  geom_point()+
+  geom_smooth(method =lm,se=FALSE)
+```
+We can see an increasing trend on space flights when spaces walks are increased.  
+## 13
+```{r}
+nasa%>%
+  filter(Name=='Mae C. Jemison')%>%
+  dplyr::select(Name,'Undergraduate Major','Graduate Major','Alma Mater')
+```
+
+## 14
+```{r}
+nasa%>%
+  filter(Gender=='Female' & `Military Branch`=='US Air Force')
+```
+
